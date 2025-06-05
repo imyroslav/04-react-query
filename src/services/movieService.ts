@@ -19,8 +19,6 @@ export const fetchMovies = async(newQuery: string): Promise<Movie[]> => {
         `${reqConfig.url}?query=${newQuery}`,
         reqConfig
     );
-    
-    console.log(result);
     return result.data.results;
 }
 
