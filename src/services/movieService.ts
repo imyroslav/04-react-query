@@ -1,14 +1,13 @@
+import axios from "axios";
 import { type Movie } from "../types/movie";
 
-import axios from "axios";
 
 export interface GetMovies {
     results: Movie[];
 }
 
-// export 
 
-export const fetchMovies = async (newQuery: string): Promise<Movie[]> => {
+export const fetchMovies = async(newQuery: string): Promise<GetMovies> => {
     
     const reqConfig = {
         url: "https://api.themoviedb.org/3/search/movie",
@@ -17,11 +16,11 @@ export const fetchMovies = async (newQuery: string): Promise<Movie[]> => {
             Authorization: `Bearer ${import.meta.env.VITE_ACCESS_TOKEN}`
         }
     }
-
-    const result = await axios.get<GetMovies>(
+    
+    const reply = await axios.get<GetMovies>(
         `${reqConfig.url}?query=${newQuery}`,
         reqConfig
     );
-    return result.data.results;
+    return reply.data;
 }
 
