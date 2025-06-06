@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { Toaster } from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 import css from "./App.module.css"
 import SearchBar from "../SearchBar/SearchBar";
 import MovieGrid from "../MovieGrid/MovieGrid";
@@ -16,20 +16,20 @@ import { type GetMovies } from "../../services/movieService";
 export default function App() {
 
     const [selectedMovie, setSelectedMovie] = useState<Movie | null>(null)
-    const [currentSearchQuery, setCurrentSearchQuery] = useState("");
+    const [currentQuery, setCurrentQuery] = useState("");
 
-    const { data, isLoading, isError } = useQuery<GetMovies>({
-        queryKey: ["movies"],
-        queryFn: () => fetchMovies(currentSearchQuery),
-        enabled: currentSearchQuery !== "",
+    const { data, isLoading, isError, isSuccess } = useQuery<GetMovies>({
+        queryKey: ["movies", currentQuery],
+        queryFn: () => fetchMovies(currentQuery),
+        enabled: currentQuery !== "",
     })
         
 
 
     
 
-    const handleSearch = async (newQuery: string) => {
-        setCurrentSearchQuery(newQuery)
+    const handleSearch = (newQuery: string) => {
+        setCurrentQuery(newQuery)
     };
 
     const openModal = (movie: Movie) => {
@@ -43,10 +43,11 @@ export default function App() {
     return (
         <div className={css.app}>
             <SearchBar onSubmit={handleSearch} />
-            <Toaster />
+            <Toaster />   
+            {!isSuccess && toast.error("No movies")}
             {isLoading && <Loader />}
             {isError && <ErrorMessage />}
-            {data?.results && data.results.length > 0 && (<MovieGrid onSelect={openModal} movies={data.results} />) }
+            {data?.results && data.results.length > 0 && <MovieGrid onSelect={openModal} movies={data.results} />}
             {selectedMovie !== null && (<MovieModal onClose={closeModal} movie={selectedMovie} />)}   
         </div>
         
