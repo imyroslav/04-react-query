@@ -6,15 +6,18 @@ export interface GetMovies {
     results: Movie[];
 }
 
-export const reqConfig = {
-    url: "https://api.themoviedb.org/3/search/movie",
-    headers: {
-        accept: "application/json",
-        Authorization: `Bearer ${import.meta.env.VITE_ACCESS_TOKEN}`
-    }
-}
+// export 
 
-export const fetchMovies = async(newQuery: string): Promise<Movie[]> => {
+export const fetchMovies = async (newQuery: string): Promise<Movie[]> => {
+    
+    const reqConfig = {
+        url: "https://api.themoviedb.org/3/search/movie",
+        headers: {
+            accept: "application/json",
+            Authorization: `Bearer ${import.meta.env.VITE_ACCESS_TOKEN}`
+        }
+    }
+
     const result = await axios.get<GetMovies>(
         `${reqConfig.url}?query=${newQuery}`,
         reqConfig
