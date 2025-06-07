@@ -32,8 +32,6 @@ export default function App() {
         setCurrentPage(1);
     };
 
-    
-
     const openModal = (movie: Movie) => {
         setSelectedMovie(movie);
     };
@@ -60,10 +58,10 @@ export default function App() {
                 previousLabel="←"
                 />
             )}
-            {isSuccess && data?.results.length === 0 && toast.error("No movies found on your request")}
             <Toaster />  
             {isLoading && <Loader />}
             {isError && <ErrorMessage />}
+            {isSuccess && data?.results.length === 0 && toast.error("No movies found on your request")}
             {data?.results && data.results.length > 0 && <MovieGrid onSelect={openModal} movies={data.results} />}
             {selectedMovie !== null && (<MovieModal onClose={closeModal} movie={selectedMovie} />)}   
         </div>
