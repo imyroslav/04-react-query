@@ -43,8 +43,8 @@ export default function App() {
     return (
         <div className={css.app}>
             <SearchBar onSubmit={handleSearch} />
-            <Toaster />   
-            {!isSuccess && toast.error("No movies")}
+            <Toaster />  
+            {(!currentQuery || data?.results.length === 0)  && toast.error("No movies")}
             {isLoading && <Loader />}
             {isError && <ErrorMessage />}
             {data?.results && data.results.length > 0 && <MovieGrid onSelect={openModal} movies={data.results} />}
