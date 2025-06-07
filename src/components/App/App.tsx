@@ -23,10 +23,6 @@ export default function App() {
         queryFn: () => fetchMovies(currentQuery),
         enabled: currentQuery !== "",
     })
-        
-
-
-    
 
     const handleSearch = (newQuery: string) => {
         setCurrentQuery(newQuery)
@@ -44,7 +40,7 @@ export default function App() {
         <div className={css.app}>
             <SearchBar onSubmit={handleSearch} />
             <Toaster />  
-            {data?.results && data.results.length === 0 && toast.error("No movies")}
+            {data?.results && data.results.length === 0 && toast.error("No movies found on your request")}
             {isLoading && <Loader />}
             {isError && <ErrorMessage />}
             {data?.results && data.results.length > 0 && <MovieGrid onSelect={openModal} movies={data.results} />}
